@@ -1,0 +1,9 @@
+### Sign in with Firebase Authentication
+POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{FIREBASE_API_KEY}}
+Content-Type: application/json
+
+{
+  "email": "user01@dmit2015.ca",
+  "password": "Password2015",
+  "returnSecureToken": true
+}

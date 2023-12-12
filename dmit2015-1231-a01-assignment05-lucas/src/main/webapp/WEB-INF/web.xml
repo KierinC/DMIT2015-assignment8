@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <security-constraint>
+        <display-name>Use HTTPS only</display-name>
+        <web-resource-collection>
+            <web-resource-name>sslResources</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Restricted Bills Finance</web-resource-name>
+            <url-pattern>/bills/create.xhtml</url-pattern>
+            <url-pattern>/bills/edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Finance</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Restricted Bills Accounting</web-resource-name>
+            <url-pattern>/bills/delete.xhtml</url-pattern>
+            <url-pattern>/bills/payments/create.xhtml</url-pattern>
+            <url-pattern>/bills/payments/edit.xhtml</url-pattern>
+            <url-pattern>/bills/payments/delete.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Accounting</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+
+    <!-- TODO: Add a security constraint for the roles Accounting Finance, Executive -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Restricted Bills Accounting, Finance, Executive</web-resource-name>
+            <url-pattern>/bills/index.xhtml</url-pattern>
+            <url-pattern>/bills/details.xhtml</url-pattern>
+            <url-pattern>/bills/detailsContent.xhtml</url-pattern>
+            <url-pattern>/bills/payments/index.xhtml</url-pattern>
+            <url-pattern>/bills/payments/details.xhtml</url-pattern>
+            <url-pattern>/bills/payments/detailsContent.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Accounting</role-name>
+            <role-name>Finance</role-name>
+            <role-name>Executive</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+
+    <security-role>
+        <role-name>Finance</role-name>
+    </security-role>
+    <security-role>
+        <role-name>Accounting</role-name>
+    </security-role>
+    <security-role>
+        <role-name>Executive</role-name>
+    </security-role>
+
+    <!-- TODO: Add custom error pages for error codes 401, 403, 404, 500 -->
+    <error-page>
+        <error-code>401</error-code>
+        <location>/errorpages/401.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/errorpages/403.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorpages/404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorpages/500.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>jakarta.faces.application.ViewExpiredException</exception-type>
+        <location>/errorpages/expired.xhtml</location>
+    </error-page>
+
+</web-app>

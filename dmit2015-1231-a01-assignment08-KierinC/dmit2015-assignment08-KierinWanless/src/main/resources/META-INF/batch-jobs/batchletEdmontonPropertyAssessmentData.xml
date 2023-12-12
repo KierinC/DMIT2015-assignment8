@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="batchletEdmontonPropertyAssessmentData"
+     xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+     version="1.0">
+
+
+    <properties>
+    	<property name="input_file" value="/home/user2015/Downloads/Property_Assessment_Data__Current_Calendar_Year_.csv" />
+    </properties>
+
+
+<!--    <listeners>-->
+<!--        &lt;!&ndash; Use a JobListener to delete all existing records and let the batchlet re-create all records.  &ndash;&gt;-->
+<!--        <listener ref="edmontonPropertyAssessmentDataJobListener"/>-->
+<!--    </listeners>-->
+
+    <step id="step1">
+        <!--
+        <listeners>
+            <listener ref="itemStepListener" />
+        </listeners>
+        -->
+        <batchlet ref="edmontonPropertyAssessmentDataBatchlet">
+            <properties>
+                <property name="input_file" value="/home/user2015/Downloads/Property_Assessment_Data__Current_Calendar_Year_.csv" />
+            </properties>
+        </batchlet>
+    </step>
+
+</job>

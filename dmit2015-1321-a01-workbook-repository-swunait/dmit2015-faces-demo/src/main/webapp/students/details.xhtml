@@ -1,0 +1,68 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Student - Details"/>
+
+    <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{firebaseLoginSession.checkForToken}" />
+        </f:metadata>
+
+        <p:panel header="Student Details">
+            <p:panelGrid columns="2">
+                <h:panelGroup>
+                    <strong><h:outputText value="ID"/></strong>
+                </h:panelGroup>
+                <h:outputText id="editId" value="#{currentStudentDetailsView.editId}"/>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="First Name"/></strong>
+                </h:panelGroup>
+                <h:outputText id="firstName" value="#{currentStudentDetailsView.existingStudent.firstName}">
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Last Name"/></strong>
+                </h:panelGroup>
+                <h:outputText id="lastName" value="#{currentStudentDetailsView.existingStudent.lastName}">
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Email"/></strong>
+                </h:panelGroup>
+                <h:outputText id="email" value="#{currentStudentDetailsView.existingStudent.email}">
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Age"/></strong>
+                </h:panelGroup>
+                <h:outputText id="age" value="#{currentStudentDetailsView.existingStudent.age}">
+                </h:outputText>
+
+            </p:panelGrid>
+
+        </p:panel>
+
+        <p:link id="editLink" outcome="edit" icon="pi pi-user-edit" value="edit">
+            <f:param name="editId" value="#{currentStudentDetailsView.editId}"/>
+        </p:link>
+        |
+        <p:link id="backToListLink" outcome="index" value="Back to List">
+        </p:link>
+
+    </ui:define>
+
+</ui:composition>

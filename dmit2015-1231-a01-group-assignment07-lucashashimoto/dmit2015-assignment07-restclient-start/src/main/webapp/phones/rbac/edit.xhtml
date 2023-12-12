@@ -1,0 +1,106 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="PhoneRbac - Edit"/>
+
+    <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{loginSession.checkForToken}" />
+        </f:metadata>
+
+        <h1>Edit PhoneRbac</h1>
+
+        <p:messages id="messages">
+            <p:autoUpdate/>
+        </p:messages>
+
+        <h:form prependId="false">
+
+            <p:panel header="PhoneRbac Details">
+                <div class="ui-fluid">
+                    <div class="field">
+                        <label for="entityId">ID</label>
+                        <p:inputText id="entityId"
+                                     label="PhoneRbacID"
+                                     value="#{currentPhoneRbacEditView.editId}"
+                                     readonly="true">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Name</p:outputLabel>
+                        <p:inputText
+                                id="name"
+                                value="#{currentPhoneRbacEditView.existingPhoneRbac.name}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Date</p:outputLabel>
+                        <p:datePicker
+                                id="date"
+                                value="#{currentPhoneRbacEditView.existingPhoneRbac.date}">
+                        </p:datePicker>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Brand</p:outputLabel>
+                        <p:inputText
+                                id="brand"
+                                value="#{currentPhoneRbacEditView.existingPhoneRbac.brand}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Price</p:outputLabel>
+                        <p:inputNumber
+                                id="price"
+                                value="#{currentPhoneRbacEditView.existingPhoneRbac.price}"
+                                decimalPlaces="2">
+                        </p:inputNumber>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Operating System</p:outputLabel>
+                        <p:inputText
+                                id="operatingSystem"
+                                value="#{currentPhoneRbacEditView.existingPhoneRbac.operatingSystem}">
+                        </p:inputText>
+                    </div>
+
+
+                </div>
+
+                <p:commandButton
+                        id="updateButton"
+                        value="Save"
+                        icon="pi pi-save"
+                        action="#{currentPhoneRbacEditView.onUpdate()}"
+                        update=":messages @form"/>
+
+
+            </p:panel>
+
+            <p>
+                <p:link id="backToListLink" outcome="index" value="Back to List">
+                </p:link>
+            </p>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

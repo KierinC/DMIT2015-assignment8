@@ -1,0 +1,72 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+        xmlns:jsf="http://xmlns.jcp.org/jsf"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+>
+
+    <p:panel header="Bill Details">
+        <p:panelGrid columns="2">
+            <h:panelGroup>
+                <strong><h:outputText value="ID"/></strong>
+            </h:panelGroup>
+            <h:outputText value="#{currentBillEditController.editId}"/>
+
+            <h:panelGroup>
+                <strong><h:outputText value="Payee Name"/></strong>
+            </h:panelGroup>
+            <h:outputText value="#{currentBillEditController.existingBill.payeeName}"/>
+
+            <h:panelGroup>
+                <strong><h:outputText value="Payment Due"/></strong>
+            </h:panelGroup>
+            <h:outputText value="#{currentBillEditController.existingBill.paymentDue}">
+                <f:convertNumber type="currency" />
+            </h:outputText>
+
+            <h:panelGroup>
+                <strong><h:outputText value="Payment Balance"/></strong>
+            </h:panelGroup>
+            <h:outputText value="#{currentBillEditController.existingBill.paymentBalance}">
+                <f:convertNumber type="currency" />
+            </h:outputText>
+
+            <h:panelGroup>
+                <strong><h:outputText value="Due Date"/></strong>
+            </h:panelGroup>
+            <h:outputText value="#{currentBillEditController.existingBill.dueDate}">
+                <f:convertDateTime pattern="EEE, MMM dd, yyyy" type="localDate"/>
+            </h:outputText>
+
+            <h:panelGroup>
+                <strong><h:outputText value="Version"/></strong>
+            </h:panelGroup>
+            <h:outputText value="#{currentBillEditController.existingBill.version}">
+            </h:outputText>
+
+            <h:panelGroup>
+                <strong><h:outputText value="Created"/></strong>
+            </h:panelGroup>
+            <h:outputText value="#{currentBillEditController.existingBill.createdDateTime}">
+                <f:convertDateTime pattern="EEE, MMM dd, yyyy h:mm:ss a" type="localDate"/>
+            </h:outputText>
+
+            <h:panelGroup>
+                <strong><h:outputText value="Last Modified"/></strong>
+            </h:panelGroup>
+            <h:outputText value="#{currentBillEditController.existingBill.lastModifiedDateTime}">
+                <f:convertDateTime pattern="EEE, MMM dd, yyyy h:mm: a" type="localDate"/>
+            </h:outputText>
+
+        </p:panelGrid>
+
+    </p:panel>
+
+</ui:composition>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Aircraft CRUD</title>
+  <link rel="stylesheet" href="resources/css/site.css" />
+</head>
+<body>
+<h1>Aircraft CRUD</h1>
+<h3>Add</h3>
+<form action="javascript:void(0);" method="POST" onsubmit="addItem()">
+  <input type="text" id="add-model" placeholder="Aircraft Model">
+  <input type="text" id="add-manufacturer" placeholder="Aircraft Manufacturer">
+  <input type="text" id="add-tailnumber" placeholder="Tail Number">
+  <input type="submit" value="Add">
+</form>
+
+<div id="editForm">
+  <h3>Edit</h3>
+  <form action="javascript:void(0);" onsubmit="updateItem()">
+    <input type="hidden" id="edit-id">
+    <input type="hidden" id="edit-version">
+    <input type="text" id="edit-model">
+    <input type="text" id="edit-manufacturer">
+    <input type="text" id="edit-tailnumber">
+    <input type="submit" value="Save">
+    <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+  </form>
+</div>
+
+<p id="counter"></p>
+
+<table>
+  <tr>
+    <th>aircraft</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tbody id="aircraft"></tbody>
+</table>
+
+<script src="resources/js/aircraft.js" asp-append-version="true"></script>
+<script type="text/javascript">
+  getItems();
+</script>
+</body>
+</html>

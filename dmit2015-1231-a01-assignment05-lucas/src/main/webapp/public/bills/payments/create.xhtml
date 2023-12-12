@@ -1,0 +1,122 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+        xmlns:jsf="http://xmlns.jcp.org/jsf"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml">
+
+    <ui:param name="title" value="Create BillPayment"/>
+
+    <ui:define name="maincontent">
+
+        <h1>Create BillPayment</h1>
+
+        <p:panel header="Bill Details">
+            <p:panelGrid columns="2" colSpans="2,10">
+                <h:panelGroup>
+                    <strong><h:outputText value="ID"/></strong>
+                </h:panelGroup>
+                <h:outputText value="#{currentBillPaymentCreateController.billId}"/>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Payee Name"/></strong>
+                </h:panelGroup>
+                <h:outputText value="#{currentBillPaymentCreateController.newBillPayment.billToPay.payeeName}"/>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Payment Due"/></strong>
+                </h:panelGroup>
+                <h:outputText value="#{currentBillPaymentCreateController.newBillPayment.billToPay.paymentDue}">
+                    <f:convertNumber type="currency" />
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Due Date"/></strong>
+                </h:panelGroup>
+                <h:outputText value="#{currentBillPaymentCreateController.newBillPayment.billToPay.dueDate}">
+                    <f:convertDateTime type="localDate" pattern="EEE MMM dd, yyyy" />
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Payment Balance"/></strong>
+                </h:panelGroup>
+                <h:outputText value="#{currentBillPaymentCreateController.newBillPayment.billToPay.paymentBalance}">
+                    <f:convertNumber type="currency" />
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Version"/></strong>
+                </h:panelGroup>
+                <h:outputText value="#{currentBillPaymentCreateController.newBillPayment.billToPay.version}" />
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Created"/></strong>
+                </h:panelGroup>
+                <h:outputText value="#{currentBillPaymentCreateController.newBillPayment.billToPay.createdDateTime}">
+                    <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd H:mm:ss" />
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Last Modified"/></strong>
+                </h:panelGroup>
+                <h:outputText value="#{currentBillPaymentCreateController.newBillPayment.billToPay.lastModifiedDateTime}">
+                    <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd H:mm:ss" />
+                </h:outputText>
+
+            </p:panelGrid>
+        </p:panel>
+
+        <p:messages id="messages"/>
+
+        <h:form>
+
+            <p:panel header="BillPayment Details">
+                <div class="field">
+                    <label for="paymentAmount">Payment Amount</label>
+                    <p:inputText
+                            id="paymentAmount"
+                            type="number"
+                            class="inputfield w-full"
+                            value="#{currentBillPaymentCreateController.newBillPayment.paymentAmount}">
+                    </p:inputText>
+                </div>
+
+                <div class="ui-fluid">
+                    <div class="field">
+                        <label for="paymentDates">Payment Date</label>
+                        <p:datePicker
+                                id="paymentDates"
+                                label="Payment Date"
+                                value="#{currentBillPaymentCreateController.newBillPayment.paymentDate}"
+                                pattern="yyyy-MM-dd"
+                        >
+                            <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
+                        </p:datePicker>
+                    </div>
+                </div>
+
+                <p:commandButton
+                        value="Create"
+                        icon="pi pi-dollar"
+                        action="#{currentBillPaymentCreateController.onCreate()}"
+                        ajax="false"
+                        update=":messages @form"
+                />
+
+            </p:panel>
+
+            <p:link id="backToListLink" outcome="/bills/index" value="Back to Bills">
+            </p:link>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

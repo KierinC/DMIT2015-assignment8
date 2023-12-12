@@ -1,0 +1,96 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+        xmlns:jsf="http://xmlns.jcp.org/jsf"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml">
+
+    <ui:param name="title" value="Edit Bill"/>
+
+    <ui:define name="maincontent">
+
+        <h1>Edit Bill</h1>
+
+        <p:messages id="messages"/>
+
+        <h:form>
+
+            <p:panel id="panel" header="Bill Details">
+
+                <div class="field">
+                    <label for="entityId">ID</label>
+                    <p:inputText id="entityId"
+                                 label="Bill ID"
+                                 value="#{currentBillEditController.editId}"
+                                 class="inputfield w-full"
+                                 readonly="true">
+                    </p:inputText>
+                </div>
+
+                <div class="field">
+                    <label for="payeeName">Payee Name</label>
+                    <p:inputText
+                            id="payeeName"
+                            type="text"
+                            class="inputfield w-full"
+                            value="#{currentBillEditController.existingBill.payeeName}">
+                    </p:inputText>
+                </div>
+
+                <div class="field">
+                    <label for="amountDue">Payment Due</label>
+                    <p:inputText
+                            id="amountDue"
+                            type="number"
+                            class="inputfield w-full"
+                            value="#{currentBillEditController.existingBill.paymentDue}">
+                    </p:inputText>
+                </div>
+
+                <div class="field">
+                    <label for="balanceDue">Payment Balance</label>
+                    <p:inputText
+                            id="balanceDue"
+                            type="number"
+                            class="inputfield w-full"
+                            value="#{currentBillEditController.existingBill.paymentBalance}">
+                    </p:inputText>
+                </div>
+
+                <div class="field grid formgrid">
+                    <div class="field col-12 md-4">
+                        <label for="dueDate">Due Date</label>
+                        <p:datePicker
+                                id="dueDate"
+                                value="#{currentBillEditController.existingBill.dueDate}"
+                                pattern="yyyy-MM-dd">
+                            <f:convertDateTime pattern="yyyy-MM-dd" type="localDate" />
+                        </p:datePicker>
+                    </div>
+                </div>
+
+            </p:panel>
+
+            <p:commandButton value="Save"
+                             icon="pi pi-save"
+                             action="#{currentBillEditController.onUpdate()}"
+                             update=":messages @form"/>
+            |
+
+            |
+
+            <p:link id="backToListLink" outcome="index" value="Back to List">
+            </p:link>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

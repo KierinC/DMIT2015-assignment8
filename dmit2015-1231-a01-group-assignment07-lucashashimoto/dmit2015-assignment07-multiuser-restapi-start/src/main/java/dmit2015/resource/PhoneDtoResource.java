@@ -1,0 +1,197 @@
+package dmit2015.resource;
+
+import common.validator.BeanValidator;
+import dmit2015.dto.*;
+import dmit2015.dto.PhoneMapper;
+import dmit2015.entity.Phone;
+import dmit2015.entity.Phone;
+import dmit2015.repository.PhoneRepository;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.ClaimValue;
+import org.eclipse.microprofile.jwt.Claims;
+
+import java.net.URI;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@ApplicationScoped
+@Path("PhonesDto")                    // All methods of this class are associated this URL path
+@Consumes(MediaType.APPLICATION_JSON)    // All methods this class accept only JSON format data
+@Produces(MediaType.APPLICATION_JSON)    // All methods return data that has been converted to JSON format
+public class PhoneDtoResource {
+  @Inject
+  @Claim(standard = Claims.upn)   // The username for the user.
+  private ClaimValue<Optional<String>> optionalUsername;
+
+  @Inject
+  @Claim(standard = Claims.groups)    // The roles that the subject is a member of.
+  private ClaimValue<Set<String>> optionalGroups;
+  @Inject
+  private UriInfo uriInfo;
+  @Inject
+  private PhoneRepository _phoneRepository;
+
+  @GET
+  @Path("token")
+  @RolesAllowed("**")
+  public String tokenCheck() {
+    if (optionalUsername.getValue().isEmpty()) {
+      return "No JWT in Http Request";
+    }
+    String username = optionalUsername.getValue().orElseThrow();
+    Set<String> groups  = optionalGroups.getValue();
+    return "JWT contains upn "  + username + ", roles: " + groups.toString();
+  }
+  @RolesAllowed("**")
+  @GET    // This method only accepts HTTP GET requests.
+  public Response getPhones() {
+    String username = optionalUsername.getValue().orElseThrow();
+    return Response.ok(_phoneRepository.findAllByUsername(username)
+                    .stream().map(PhoneMapper.INSTANCE::toDto)
+                    .collect(Collectors.toList()))
+            .build();
+  }
+  @Path("all")
+  @GET    // GET: restapi/PhonesDto
+  public Response getAllPhones() {
+    return Response.ok(_phoneRepository.findAll()
+                    .stream()
+//                .map(this::mapToDto)
+                    .map(PhoneMapper.INSTANCE::toDto)
+                    .collect(Collectors.toList()))
+            .build();
+  }
+
+  @RolesAllowed("**")
+  @Path("{id}")
+  @GET    // This method only accepts HTTP GET requests.
+  public Response getPhone(@PathParam("id") Long id) {
+    Optional<Phone> optionalPhone = _phoneRepository.findById(id);
+
+    if (optionalPhone.isEmpty()) {
+      throw new NotFoundException();
+    }
+    Phone existingPhone = optionalPhone.get();
+    PhoneDto dto = PhoneMapper.INSTANCE.toDto(existingPhone);
+
+    return Response.ok(dto).build();
+  }
+
+  @RolesAllowed("**")
+  @POST    // This method only accepts HTTP POST requests.
+  public Response postPhone(@Valid PhoneDto dto) {
+    String username = optionalUsername.getValue().orElseThrow();
+    Set<String> groups  = optionalGroups.getValue();
+
+    if (dto == null) {
+      throw new BadRequestException();
+    }
+
+    String errorMessage = BeanValidator.validateBean(dto);
+    if (errorMessage != null) {
+      return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).build();
+    }
+
+//        Phone newPhone = mapFromDto(dto);
+    Phone newPhone = PhoneMapper.INSTANCE.toEntity(dto);
+    newPhone.setUsername(username);
+    _phoneRepository.add(newPhone);
+
+    URI phonesUri = uriInfo.getAbsolutePathBuilder().path(newPhone.getId().toString()).build();
+    return Response.created(phonesUri).build();
+  }
+  @RolesAllowed("**")
+  @PUT            // This method only accepts HTTP PUT requests.
+  @Path("{id}")    // This method accepts a path parameter and gives it a name of id
+  public Response updatePhone(@PathParam("id") Long id, PhoneDto updatedPhoneDto) {
+    String username = optionalUsername.getValue().orElseThrow();
+    Set<String> groups  = optionalGroups.getValue();
+
+    if (!id.equals(updatedPhoneDto.getId())) {
+      throw new BadRequestException();
+    }
+    Optional<Phone> optionalPhone = _phoneRepository.findById(id);
+    if (optionalPhone.isEmpty()) {
+      throw new NotFoundException();
+    }
+
+    String errorMessage = BeanValidator.validateBean(updatedPhoneDto);
+    if (errorMessage != null) {
+      return Response
+              .status(Response.Status.BAD_REQUEST)
+              .entity(errorMessage)
+              .build();
+    }
+
+    Phone existingPhone = optionalPhone.orElseThrow();
+    if (!existingPhone.getUsername().equalsIgnoreCase(username)) {
+      final String message = "Access denied. You do not have permission to update data owned by another user.";
+      throw new NotAuthorizedException(message);
+    }
+    existingPhone.setVersion(updatedPhoneDto.getVersion());
+    existingPhone.setModel(updatedPhoneDto.getName());
+    existingPhone.setBrand(updatedPhoneDto.getBrand());
+    existingPhone.setOperatingSystem(updatedPhoneDto.getOperatingSystem());
+    existingPhone.setReleaseDate(updatedPhoneDto.getDate());
+    existingPhone.setPrice(updatedPhoneDto.getPrice());
+    try {
+      _phoneRepository.update(existingPhone);
+    } catch (OptimisticLockException ex) {
+      return Response
+              .status(Response.Status.BAD_REQUEST)
+              .entity("The data you are trying to update has changed since your last read request.")
+              .build();
+    } catch (Exception ex) {
+      // Return an HTTP status of "500 Internal Server Error" containing the exception message
+      return Response.
+              serverError()
+              .entity(ex.getMessage())
+              .build();
+    }
+
+    // Returns an HTTP status "200 OK" and include in the body of the response the object that was updated
+    PhoneDto existingDto = PhoneMapper.INSTANCE.toDto(existingPhone);
+    return Response.ok(existingDto).build();
+  }
+  @RolesAllowed("**")
+  @DELETE            // This method only accepts HTTP DELETE requests.
+  @Path("{id}")    // This method accepts a path parameter and gives it a name of id
+  public Response deletePhone(@PathParam("id") Long id) {
+    String username = optionalUsername.getValue().orElseThrow();
+    Set<String> groups  = optionalGroups.getValue();
+
+    Optional<Phone> optionalPhone = _phoneRepository.findById(id);
+
+    if (optionalPhone.isEmpty()) {
+      throw new NotFoundException();
+    }
+
+    Phone existingPhone = optionalPhone.orElseThrow();
+    if (!existingPhone.getUsername().equalsIgnoreCase(username)) {
+      final String message = "Access denied. You do not have permission to delete data owned by another user.";
+      throw new NotAuthorizedException(message);
+    }
+    _phoneRepository.deleteById(id);
+// Returns an HTTP status "204 No Content" to indicated that the resource was deleted
+    return Response.noContent().build();
+    }
+
+
+//      private PhoneDto mapToDto(Phone phone) {
+//        return new PhoneDto(phone.getId(),phone.getModel(), phone.getReleaseDate(), phone.getPrice(), phone.getBrand(), phone.getOperatingSystem(), phone.getVersion());
+//    }
+//
+//    private Phone mapFromDto(PhoneDto dto) {
+//        return new Phone(dto.getId(),dto.getName(), dto.getDate(), dto.getPrice(), dto.getBrand(), dto.getOperatingSystem());
+//    }
+}

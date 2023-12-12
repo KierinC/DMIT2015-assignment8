@@ -1,0 +1,95 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Location - Details"/>
+
+    <ui:define name="maincontent">
+
+        <p:panel header="Location Details">
+            <p:panelGrid columns="2">
+                <h:panelGroup>
+                    <strong><h:outputText value="ID"/></strong>
+                </h:panelGroup>
+                <h:outputText id="editId" value="#{currentLocationDetailsView.editId}"/>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="streetAddress"/></strong>
+                </h:panelGroup>
+                <h:outputText id="streetAddress" value="#{currentLocationDeleteView.existingLocation.streetAddress}">
+                    <!-- Reference example on how to format output using custom date format or custom number format
+                    <f:convertDateTime type="localDate" pattern="MMM d, yyyy" />
+                    <f:convertNumber type="currency" locale="en_CA"/>
+                    -->
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="postalCode"/></strong>
+                </h:panelGroup>
+                <h:outputText id="postalCode" value="#{currentLocationDeleteView.existingLocation.postalCode}">
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="city"/></strong>
+                </h:panelGroup>
+                <h:outputText id="city" value="#{currentLocationDeleteView.existingLocation.city}">
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="stateProvince"/></strong>
+                </h:panelGroup>
+                <h:outputText id="stateProvince" value="#{currentLocationDeleteView.existingLocation.stateProvince}">
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="countryName"/></strong>
+                </h:panelGroup>
+                <h:outputText id="countryName" value="#{currentLocationDeleteView.existingLocation.countriesByCountryId.countryName}">
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Version"/></strong>
+                </h:panelGroup>
+                <h:outputText id="version" value="#{currentLocationDetailsView.existingLocation.version}">
+                </h:outputText>
+
+               <!-- <h:panelGroup>
+                    <strong><h:outputText value="CreateTime"/></strong>
+                </h:panelGroup>
+                <h:outputText id="createTime" value="#{currentLocationDetailsView.existingLocation.createTime}">
+                    <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd h:mm a"/>
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="UpdateTime"/></strong>
+                </h:panelGroup>
+                <h:outputText id="updateTime" value="#{currentLocationDetailsView.existingLocation.updateTime}">
+                    <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd h:mm a"/>
+                </h:outputText>-->
+
+            </p:panelGrid>
+
+        </p:panel>
+
+        <p:link id="editLink" outcome="edit" icon="pi pi-user-edit" value="edit">
+            <f:param name="editId" value="#{currentLocationDetailsView.editId}"/>
+        </p:link>
+        |
+        <p:link id="backToListLink" outcome="index" value="Back to List">
+        </p:link>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,78 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="PhoneMultiUser - Details"/>
+
+    <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{loginSession.checkForToken}" />
+        </f:metadata>
+
+        <p:panel header="PhoneMultiUser Details">
+            <p:panelGrid columns="2">
+                <h:panelGroup>
+                    <strong><h:outputText value="ID"/></strong>
+                </h:panelGroup>
+                <h:outputText id="editId" value="#{currentPhoneMultiUserDetailsView.editId}"/>
+
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Name"/></strong>
+                </h:panelGroup>
+                <h:outputText id="name" value="#{currentPhoneMultiUserDetailsView.existingPhoneMultiUser.name}"/>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Date"/></strong>
+                </h:panelGroup>
+                <h:outputText id="releaseDate" value="#{currentPhoneMultiUserDetailsView.existingPhoneMultiUser.date}">
+                    <f:convertDateTime type="localDate" pattern="MMM d, yyyy" />
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Brand"/></strong>
+                </h:panelGroup>
+                <h:outputText id="brand" value="#{currentPhoneMultiUserDetailsView.existingPhoneMultiUser.brand}">
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Price"/></strong>
+                </h:panelGroup>
+                <h:outputText id="price" value="#{currentPhoneMultiUserDetailsView.existingPhoneMultiUser.price}">
+                </h:outputText>
+                <h:panelGroup>
+                    <strong><h:outputText value="Operating System"/></strong>
+                </h:panelGroup>
+                <h:outputText id="operatingSystem" value="#{currentPhoneMultiUserDetailsView.existingPhoneMultiUser.operatingSystem}"/>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Version"/></strong>
+                </h:panelGroup>
+                <h:outputText id="version" value="#{currentPhoneMultiUserDetailsView.existingPhoneMultiUser.version}">
+                </h:outputText>
+            </p:panelGrid>
+
+        </p:panel>
+
+        <p:link id="editLink" outcome="edit" icon="pi pi-user-edit" value="edit">
+            <f:param name="editId" value="#{currentPhoneMultiUserDetailsView.editId}"/>
+        </p:link>
+        |
+        <p:link id="backToListLink" outcome="index" value="Back to List">
+        </p:link>
+
+    </ui:define>
+
+</ui:composition>

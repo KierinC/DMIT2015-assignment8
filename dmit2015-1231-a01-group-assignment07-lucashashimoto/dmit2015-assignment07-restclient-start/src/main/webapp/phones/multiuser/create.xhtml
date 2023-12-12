@@ -1,0 +1,95 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="PhoneMultiUser - Create"/>
+
+    <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{loginSession.checkForToken}" />
+        </f:metadata>
+        <h1>Create PhoneMultiUser</h1>
+
+        <p:messages id="messages">
+            <p:autoUpdate/>
+        </p:messages>
+
+
+        <h:form prependId="false">
+            <p:focus context="panel"/>
+
+            <p:panel id="panel" header="PhoneMultiUser Details">
+                <div class="ui-fluid">
+                    <div class="field">
+                        <p:outputLabel for="@next">Name</p:outputLabel>
+                        <p:inputText
+                                id="name"
+                                value="#{currentPhoneMultiUserCreateView.newPhoneMultiUser.name}">
+                        </p:inputText>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="@next">Date</p:outputLabel>
+                        <p:datePicker
+                                id="date"
+                                value="#{currentPhoneMultiUserCreateView.newPhoneMultiUser.date}">
+                        </p:datePicker>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="@next">Brand</p:outputLabel>
+                        <p:inputText
+                                id="brand"
+                                value="#{currentPhoneMultiUserCreateView.newPhoneMultiUser.brand}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Price</p:outputLabel>
+                        <p:inputNumber
+                                id="price"
+                                value="#{currentPhoneMultiUserCreateView.newPhoneMultiUser.price}"
+                                decimalPlaces="2">
+                        </p:inputNumber>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Operating System</p:outputLabel>
+                        <p:inputText
+                                id="operatingSystem" value="#{currentPhoneMultiUserCreateView.newPhoneMultiUser.operatingSystem}">
+                        </p:inputText>
+                    </div>
+
+
+                </div>
+
+                <p:commandButton
+                        id="createButton"
+                        value="Create"
+                        icon="pi pi-save"
+                        action="#{currentPhoneMultiUserCreateView.onCreateNew()}"
+                        update=":messages @form"
+                />
+
+            </p:panel>
+
+            <p>
+                <p:link id="backToListLink" outcome="index" value="Back to List">
+                </p:link>
+            </p>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

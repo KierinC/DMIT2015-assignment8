@@ -1,0 +1,22 @@
+
+### Start the Batchlet Job
+POST http://localhost:8080/restapi/batch-jobs/batchletEdmontonPropertyAssessmentData
+
+### Check the status of the Batchlet Job
+GET http://localhost:8080/restapi/batch-jobs/1
+
+
+### Start Chunk Batchlet
+POST http://localhost:8080/restapi/batch-jobs/chunkEdmontonPropertyAssessmentDataImportCsvToDatabase
+
+### Check the status of the Chunk Batchlet
+GET http://localhost:8080/restapi/batch-jobs/1
+
+
+### Get the EdmontonPropertyAssessment by byHouseNumberAndStreetNameAndSuite
+GET http://localhost:8080/restapi/EdmontonPropertyAssessmentDatas/query/byHouseNumberAndStreetNameAndSuite?houseNumber=130&streetName=GRANDISLE ROAD NW&suite=
+
+### Get the EdmontonPropertyAssessment by longitude -113.35023446875456, latitude 53.47287377003312, distance 50
+GET http://localhost:8080/restapi/EdmontonPropertyAssessmentDatas/query/within?longitude=-113.35023446875456&latitude=53.47287377003312&distance=50
+
+

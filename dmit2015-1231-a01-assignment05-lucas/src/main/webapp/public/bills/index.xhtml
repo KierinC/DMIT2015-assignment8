@@ -1,0 +1,97 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+        xmlns:jsf="http://xmlns.jcp.org/jsf"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml">
+
+    <ui:param name="title" value="Bill - List"/>
+
+    <ui:define name="maincontent">
+        <div class="p-shadow-1">
+            <h1>Bill List</h1>
+        </div>
+        <div class="p-shadow-1"></div>
+        <div class="p-shadow-24"></div>
+
+        <p:messages id="messages"/>
+
+        <h:form>
+
+            <p:commandButton value="Create New"
+                             action="create"
+                             icon="pi pi-database"
+            >
+            </p:commandButton>
+
+            <p:dataTable id="entityTable"
+                         value="#{currentBillListController.billList}"
+                         var="currentItem">
+
+                <p:column headerText="ID">
+                    <h:outputText value="#{currentItem.id}"/>
+                </p:column>
+
+                <p:column headerText="Payee Name">
+                    <h:outputText value="#{currentItem.payeeName}"/>
+                </p:column>
+
+                <p:column headerText="Payment Due">
+                    <h:outputText value="#{currentItem.paymentDue}">
+                        <f:convertNumber type="currency" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Payment Balance">
+                    <h:outputText value="#{currentItem.paymentBalance}">
+                        <f:convertNumber type="currency" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Due Date">
+                    <h:outputText value="#{currentItem.dueDate}">
+                        <f:convertDateTime pattern="EEEE, MMM dd, yyyy" type="localDate"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Action">
+                    <p:link id="editLink" outcome="edit" value="edit">
+                        <f:param name="editId" value="#{currentItem.id}"/>
+                    </p:link>
+
+                    |
+
+                    <p:link id="detailsLink" outcome="details" value="details">
+                        <f:param name="editId" value="#{currentItem.id}"/>
+                    </p:link>
+
+                    |
+
+                    <p:link id="deleteLink" outcome="delete" value="delete">
+                        <f:param name="editId" value="#{currentItem.id}"/>
+                    </p:link>
+                </p:column>
+
+                <p:column headerText="Payments">
+                    <p:linkButton  id="payBillLink" outcome="payments/create" value="pay" icon="pi pi-credit-card">
+                        <f:param name="billId" value="#{currentItem.id}"/>
+                    </p:linkButton >
+                    <p:linkButton  id="viewPaymentsLink" outcome="payments/index" value="view" icon="pi pi-money-bill">
+                        <f:param name="billId" value="#{currentItem.id}"/>
+                    </p:linkButton >
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,52 @@
+### Get all TodoItemsDto
+GET http://localhost:8181/restapi/TodoItemsDto
+
+### Get all TodoItemsDto with JWT
+GET http://localhost:8181/restapi/TodoItemsDto/all
+Authorization: Bearer {{sking_token}}
+
+### Get a single TodoItem with an id of 1
+GET http://localhost:8181/restapi/TodoItemsDto/1
+Authorization: Bearer {{sking_token}}
+
+### POST a new TodoItem with valid data
+POST http://localhost:8181/restapi/TodoItemsDto
+Content-Type: application/json
+Authorization: Bearer {{sking_token}}
+
+{
+  "name": "Start DMIT2015 Assignment 6",
+  "complete": false
+}
+
+### Post a new TodoItem with invalid data
+POST http://localhost:8181/restapi/TodoItemsDto
+Content-Type: application/json
+Authorization: Bearer {{sking_token}}
+
+{
+  "name": "     ",
+  "complete": false
+}
+
+### Get a single TodoItem with an id of 4
+GET http://localhost:8181/restapi/TodoItemsDto/4
+Authorization: Bearer {{sking_token}}
+
+### Update TodoItem with an id of 4 with valid data
+PUT http://localhost:8181/restapi/TodoItemsDto/4
+Content-Type: application/json
+
+{
+  "id": 4,
+  "name": "Commit and push DMIT2015 Assignment 6",
+  "complete": true,
+  "version": 1
+}
+
+### Delete an TodoItem with an id of 2 without JWT
+DELETE http://localhost:8181/restapi/TodoItemsDto/2
+
+### Delete an TodoItem with an id of 2 with JWT
+DELETE http://localhost:8181/restapi/TodoItemsDto/2
+Authorization: Bearer {{sking_token}}

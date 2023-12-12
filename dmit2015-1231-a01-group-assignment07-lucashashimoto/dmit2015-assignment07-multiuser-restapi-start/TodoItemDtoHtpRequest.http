@@ -1,0 +1,54 @@
+### Get all TodoItemsDto
+GET http://localhost:8182/restapi/TodoItemsDto/all
+
+### Get all user TodoItemsDto
+GET http://localhost:8182/restapi/TodoItemsDto
+Authorization: Bearer {{smavis_user_token}}
+
+### Get a single TodoItem with an id of 1
+GET http://localhost:8182/restapi/TodoItemsDto/1
+Authorization: Bearer {{smavis_user_token}}
+
+### POST a new TodoItem with valid data
+POST http://localhost:8182/restapi/TodoItemsDto
+Content-Type: application/json
+Authorization: Bearer {{kgee_user_token}}
+
+{
+  "name": "KGEE Http Request Todo",
+  "complete": false
+}
+
+### Post a new TodoItem with invalid data
+POST http://localhost:8182/restapi/TodoItemsDto
+Content-Type: application/json
+Authorization: Bearer {{kgee_user_token}}
+
+{
+  "name": "     ",
+  "complete": false
+}
+
+### Get a single TodoItem with an id of 2
+GET http://localhost:8182/restapi/TodoItemsDto/2
+Authorization: Bearer {{smavis_user_token}}
+
+### Update TodoItem with an id of 5 with valid data
+PUT http://localhost:8182/restapi/TodoItemsDto/5
+Content-Type: application/json
+Authorization: Bearer {{kgee_user_token}}
+
+{
+  "id": 5,
+  "name": "KGEE Updated Http Request",
+  "complete": true,
+  "version": 0
+}
+
+### Delete an TodoItem with an id of another user
+DELETE http://localhost:8182/restapi/TodoItemsDto/2
+Authorization: Bearer {{kgee_user_token}}
+
+### Delete an TodoItem with an id of auth user
+DELETE http://localhost:8182/restapi/TodoItemsDto/5
+Authorization: Bearer {{kgee_user_token}}

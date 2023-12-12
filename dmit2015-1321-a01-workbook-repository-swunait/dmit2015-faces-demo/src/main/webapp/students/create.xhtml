@@ -1,0 +1,90 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Student - Create"/>
+
+    <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{firebaseLoginSession.checkForToken}" />
+        </f:metadata>
+
+        <h1>Create Student</h1>
+
+        <p:messages id="messages">
+            <p:autoUpdate/>
+        </p:messages>
+
+        <h:form prependId="false">
+            <p:focus context="panel"/>
+
+            <p:panel id="panel" header="Student Details">
+                <div class="ui-fluid">java
+                    <div class="field">
+                        <p:outputLabel for="@next">First Name</p:outputLabel>
+                        <p:inputText
+                                id="firstName"
+                                value="#{currentStudentCreateView.newStudent.firstName}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Last Name</p:outputLabel>
+                        <p:inputText
+                                id="lastName"
+                                value="#{currentStudentCreateView.newStudent.lastName}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Email</p:outputLabel>
+                        <p:inputText
+                                id="email"
+                                value="#{currentStudentCreateView.newStudent.email}">
+                        </p:inputText>
+                    </div>
+
+                </div>
+
+                <p:commandButton
+                        id="createButton"
+                        value="Create"
+                        icon="pi pi-save"
+                        action="#{currentStudentCreateView.onCreateNew()}"
+                        update=":messages @form"
+                />
+                <p:commandButton
+                        id="generateDataButton"
+                        value="Generate Data"
+                        icon="pi pi-refresh"
+                        actionListener="#{currentStudentCreateView.onGenerateData()}"
+                        update="@form"
+                        process="@form"
+                >
+                    <o:validateBean disabled="true" />
+                </p:commandButton>
+
+            </p:panel>
+
+            <p>
+                <p:link id="backToListLink" outcome="index" value="Back to List">
+                </p:link>
+            </p>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

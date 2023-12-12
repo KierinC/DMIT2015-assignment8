@@ -1,0 +1,145 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Todo - CRUD"/>
+
+    <ui:param name="internalstyles"
+              value=".Todos-table-header { display: flex; align-items:center; justify-content: space-between; flex-wrap: wrap; }"/>
+
+    <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{firebaseLoginSession.checkForToken}" />
+        </f:metadata>
+
+
+        <div class="card">
+            <h:form id="form">
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="New" icon="pi pi-plus" actionListener="#{currentTodoCrudView.onOpenNew}"
+                                         update=":dialogs:manage-Todo-content"
+                                         oncomplete="PF('manageTodoDialog').show()"
+                                         styleClass="ui-button-success" style="margin-right: .5rem">
+                            <p:resetInput target=":dialogs:manage-Todo-content"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-Todos" widgetVar="dtTodos"
+                             value="#{currentTodoCrudView.todoMap.entrySet()}"
+                             rendered="#{not empty currentTodoCrudView.todoMap}"
+                             var="currentItem"
+                             reflow="true"
+                             selection="#{currentTodoCrudView.selectedTodo}"
+                             rowKey="#{currentItem.key}"
+                             paginator="true" rows="10"
+                             paginatorPosition="bottom">
+
+                    <f:facet name="header">
+                        <div class="Todos-table-header">
+                            <span style="font-weight: bold">TodoS</span>
+                            <span class="filter-container ui-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <p:inputText id="globalFilter" onkeyup="PF('dtTodos').filter()" placeholder="Search"/>
+                            </span>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="Task">
+                        <h:outputText value="#{currentItem.value.task}"/>
+                    </p:column>
+                    <p:column headerText="Done">
+                        <p:selectBooleanCheckbox value="#{currentItem.value.done}" disabled="true"/>
+                    </p:column>
+                        <h:outputText value="#{currentItem.value.done}"/>
+                    <p:column exportable="false">
+                        <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-Todo-content"
+                                         oncomplete="PF('manageTodoDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{currentItem.value}"
+                                                         target="#{currentTodoCrudView.selectedTodo}"/>
+                            <f:setPropertyActionListener value="#{currentItem.key}"
+                                                         target="#{currentTodoCrudView.selectedKey}"/>
+                            <p:resetInput target=":dialogs:manage-Todo-content"/>
+                        </p:commandButton>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('deleteTodoDialog').show()">
+                            <f:setPropertyActionListener value="#{currentItem.value}"
+                                                         target="#{currentTodoCrudView.selectedTodo}"/>
+                            <f:setPropertyActionListener value="#{currentItem.key}"
+                                                         target="#{currentTodoCrudView.selectedKey}"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+            <h:form id="dialogs">
+                <p:dialog header="Todo Details" showEffect="fade" modal="true" widgetVar="manageTodoDialog"
+                          responsive="true">
+                    <p:outputPanel id="manage-Todo-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty currentTodoCrudView.selectedTodo}">
+
+                            <div class="field">
+                                <p:outputLabel for="@next">Task</p:outputLabel>
+                                <p:inputText
+                                        id="task"
+                                        value="#{currentTodoCrudView.selectedTodo.task}">
+                                </p:inputText>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="@next">Done</p:outputLabel>
+                                <p:selectBooleanCheckbox
+                                        id="done"
+                                        value="#{currentTodoCrudView.selectedTodo.done}">
+                                </p:selectBooleanCheckbox>
+                            </div>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" icon="pi pi-check" actionListener="#{currentTodoCrudView.onSave}"
+                                         update="manage-Todo-content" process="manage-Todo-content @this"/>
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageTodoDialog').hide()"
+                                         class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="deleteTodoDialog" showEffect="fade" width="300"
+                                 message="Delete the Todo?" header="Confirm" severity="warn">
+                    <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{currentTodoCrudView.onDelete}"
+                                     process="@this"
+                                     oncomplete="PF('deleteTodoDialog').hide()"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteTodoDialog').hide()"/>
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,45 @@
+### Get all Aircraft
+GET http://localhost:8080/restapi/Aircrafts
+
+### Get a single Aircraft with an id of 1
+GET http://localhost:8080/restapi/Aircrafts/1
+
+### POST a new Aircraft with valid data
+POST http://localhost:8080/restapi/Aircrafts
+Content-Type: application/json
+
+{
+  "model": "747",
+  "manufacturer": "Boeing",
+  "tailnumber": "M1436A"
+}
+
+### Post a new Aircraft with invalid data
+POST http://localhost:8080/restapi/Aircrafts
+Content-Type: application/json
+
+{
+  "model": "     ",
+  "manufacturer": "     ",
+  "tailnumber": "1M436555ABC1"
+}
+
+### Get a single Aircraft with an id of 4
+GET http://localhost:8080/restapi/Aircrafts/4
+
+### Update Aircraft with an id of 4 with valid data
+PUT http://localhost:8080/restapi/Aircrafts/4
+Content-Type: application/json
+
+{
+  "id": 4,
+  "model": "747",
+  "manufacturer": "Boeing",
+  "tailnumber": "M1436A"
+}
+
+### Delete an Aircraft with an id of 2
+DELETE http://localhost:8080/restapi/Aircrafts/2
+
+### Delete an Aircraft with an id of 4
+DELETE http://localhost:8080/restapi/Aircrafts/4

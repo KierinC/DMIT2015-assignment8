@@ -1,0 +1,83 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Student - List"/>
+
+    <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{firebaseLoginSession.checkForToken}" />
+        </f:metadata>
+
+        <h1>Student List</h1>
+
+        <p:messages id="messages"/>
+
+        <h:form>
+
+            <p:commandButton
+                    value="Create New"
+                    action="create"
+                    icon="pi pi-database"
+                    ajax="false"
+            >
+            </p:commandButton>
+
+            <p:dataTable id="entityTable"
+                         value="#{currentStudentListView.studentMap.entrySet()}"
+                         rendered="#{not empty currentStudentListView.studentMap}"
+                         var="currentItem"
+                         rowKey="#{currentItem.key}"
+                         paginator="true" rows="10"
+                         paginatorPosition="bottom">
+
+                <p:column headerText="First Name">
+                    <h:outputText value="#{currentItem.value.firstName}"/>
+                </p:column>
+                <p:column headerText="Last Name">
+                    <h:outputText value="#{currentItem.value.lastName}"/>
+                </p:column>
+                <p:column headerText="Email">
+                    <h:outputText value="#{currentItem.value.email}"/>
+                </p:column>
+                <p:column headerText="Age">
+                    <h:outputText value="#{currentItem.value.age}"/>
+                </p:column>
+
+                <p:column headerText="Action" exportable="false">
+                    <p:link id="editLink" outcome="edit" value="edit">
+                        <f:param name="editId" value="#{currentItem.key}"/>
+                    </p:link>
+
+                    |
+
+                    <p:link id="detailsLink" outcome="details" value="details">
+                        <f:param name="editId" value="#{currentItem.key}"/>
+                    </p:link>
+
+                    |
+
+                    <p:link id="deleteLink" outcome="delete" value="delete">
+                        <f:param name="editId" value="#{currentItem.key}"/>
+                    </p:link>
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

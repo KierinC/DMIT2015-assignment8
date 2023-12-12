@@ -1,0 +1,98 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Location - Edit"/>
+
+    <ui:define name="maincontent">
+
+        <h1>Edit Location</h1>
+
+        <p:messages id="messages">
+            <p:autoUpdate/>
+        </p:messages>
+
+        <h:form prependId="false">
+
+            <p:panel header="Location Details">
+                <div class="ui-fluid">
+                    <div class="field">
+                        <p:outputLabel for="@next">Street Address</p:outputLabel>
+                        <p:inputText
+                                id="streetAddress"
+                                value="#{currentLocationCreateView.newLocation.streetAddress}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Postal Code</p:outputLabel>
+                        <p:inputText
+                                id="postalCode"
+                                value="#{currentLocationCreateView.newLocation.postalCode}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">City</p:outputLabel>
+                        <p:inputText
+                                id="city"
+                                value="#{currentLocationCreateView.newLocation.city}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">State/Province</p:outputLabel>
+                        <p:inputText
+                                id="stateProvince"
+                                value="#{currentLocationCreateView.newLocation.stateProvince}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Country</p:outputLabel>
+                        <p:selectOneMenu
+                                id="selectedRegionId"
+                                value="#{currentLocationCreateView.selectedCountryId}">
+                            <f:selectItem itemLabel="--- select a country ---" itemValue="#{null}" />
+                            <f:selectItems value="#{currentLocationCreateView.countries}"
+                                           var="currentCountry"
+                                           itemLabel="#{currentCountry.countryName}"
+                                           itemValue="#{currentCountry.countryId}" />
+                        </p:selectOneMenu>
+                    </div>
+
+
+                </div>
+
+                <p:commandButton
+                        id="updateButton"
+                        value="Save"
+                        icon="pi pi-save"
+                        action="#{currentLocationEditView.onUpdate()}"
+                        update=":messages @form"/>
+
+
+            </p:panel>
+
+            <p>
+                <p:link id="backToListLink" outcome="index" value="Back to List">
+                </p:link>
+            </p>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

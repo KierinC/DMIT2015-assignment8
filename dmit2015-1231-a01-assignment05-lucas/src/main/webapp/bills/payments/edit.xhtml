@@ -1,0 +1,75 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+        xmlns:jsf="http://xmlns.jcp.org/jsf"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml">
+
+    <ui:param name="title" value="Edit BillPayment"/>
+
+    <ui:define name="maincontent">
+
+        <h1>Edit BillPayment</h1>
+
+        <p:messages id="messages"/>
+
+        <h:form>
+            <p:focus context="paymentAmount" />
+
+            <p:panel header="BillPayment Details" >
+                <div class="field">
+                    <label for="entityId">BillPayment ID</label>
+                    <p:inputText id="entityId"
+                                 label="BillPayment ID"
+                                 class="inputfield w-full"
+                                 value="#{currentBillPaymentEditController.editId}"
+                                 readonly="true">
+                    </p:inputText>
+                </div>
+
+                <div class="field">
+                    <label for="paymentAmount">Payment Amount</label>
+                    <p:inputText
+                            id="paymentAmount"
+                            type="number"
+                            class="inputfield w-full"
+                            value="#{currentBillPaymentEditController.existingBillPayment.paymentAmount}">
+                    </p:inputText>
+                </div>
+
+                <div class="field">
+                    <label for="paymentDates">Payment Date</label>
+                    <p:datePicker
+                            id="paymentDates"
+                            label="Payment Date"
+                            class="inputfield w-full"
+                            value="#{currentBillPaymentEditController.existingBillPayment.paymentDate}"
+                            pattern="MMM dd, yyyy"
+                    >
+                        <f:convertDateTime type="localDate" pattern="MMM dd, yyyy" />
+                    </p:datePicker>
+                </div>
+
+            </p:panel>
+
+            <p:commandButton value="Save"
+                             look="primary"
+                             iconAwesome="save"
+                             action="#{currentBillPaymentEditController.onUpdate()}"
+                             update=":messages @form"/>
+            |
+            <p:link id="backToListLink" outcome="index" value="Backto List">
+            </p:link>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

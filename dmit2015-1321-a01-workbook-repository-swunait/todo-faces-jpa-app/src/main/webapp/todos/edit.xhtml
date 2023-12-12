@@ -1,0 +1,77 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Todo - Edit"/>
+
+    <ui:define name="maincontent">
+
+        <h1>Edit Todo</h1>
+
+        <p:messages id="messages">
+            <p:autoUpdate/>
+        </p:messages>
+
+        <h:form prependId="false">
+
+            <p:panel header="Todo Details">
+                <div class="ui-fluid">
+                    <div class="field">
+                        <label for="entityId">ID</label>
+                        <p:inputText id="entityId"
+                                     label="TodoID"
+                                     value="#{currentTodoEditView.editId}"
+                                     readonly="true">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="@next">Task</p:outputLabel>
+                        <p:inputText
+                                id="task"
+                                value="#{currentTodoEditView.existingTodo.task}">
+                        </p:inputText>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="@next">Done</p:outputLabel>
+                        <p:selectBooleanCheckbox
+                                id="done"
+                                value="#{currentTodoEditView.existingTodo.done}">
+                        </p:selectBooleanCheckbox>
+                    </div>
+
+
+                </div>
+
+                <p:commandButton
+                        id="updateButton"
+                        value="Save"
+                        icon="pi pi-save"
+                        action="#{currentTodoEditView.onUpdate()}"
+                        update=":messages @form"/>
+
+
+            </p:panel>
+
+            <p>
+                <p:link id="backToListLink" outcome="index" value="Back to List">
+                </p:link>
+            </p>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

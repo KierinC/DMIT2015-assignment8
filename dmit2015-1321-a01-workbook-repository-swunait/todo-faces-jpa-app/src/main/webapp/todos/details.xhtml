@@ -1,0 +1,81 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Todo - Details"/>
+
+    <ui:define name="maincontent">
+
+        <p:panel header="Todo Details">
+            <p:panelGrid columns="2">
+                <h:panelGroup>
+                    <strong><h:outputText value="ID"/></strong>
+                </h:panelGroup>
+                <h:outputText id="editId" value="#{currentTodoDetailsView.editId}"/>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Task"/></strong>
+                </h:panelGroup>
+                <h:outputText id="task" value="#{currentTodoDetailsView.existingTodo.task}">
+                    <!-- Reference example on how to format output using custom date format or custom number format
+                      <f:convertDateTime type="localDate" pattern="MMM d, yyyy" />
+                      <f:convertNumber type="currency" locale="en_CA"/>
+                  -->
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Done"/></strong>
+                </h:panelGroup>
+                <h:outputText id="done" value="#{currentTodoDetailsView.existingTodo.done}">
+                    <!-- Reference example on how to format output using custom date format or custom number format
+                      <f:convertDateTime type="localDate" pattern="MMM d, yyyy" />
+                      <f:convertNumber type="currency" locale="en_CA"/>
+                  -->
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="Version"/></strong>
+                </h:panelGroup>
+                <h:outputText id="version" value="#{currentTodoDetailsView.existingTodo.version}">
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="CreateTime"/></strong>
+                </h:panelGroup>
+                <h:outputText id="createTime" value="#{currentTodoDetailsView.existingTodo.createTime}">
+                    <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd h:mm a"/>
+                </h:outputText>
+
+                <h:panelGroup>
+                    <strong><h:outputText value="UpdateTime"/></strong>
+                </h:panelGroup>
+                <h:outputText id="updateTime" value="#{currentTodoDetailsView.existingTodo.updateTime}">
+                    <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd h:mm a"/>
+                </h:outputText>
+
+            </p:panelGrid>
+
+        </p:panel>
+
+        <p:link id="editLink" outcome="edit" icon="pi pi-user-edit" value="edit">
+            <f:param name="editId" value="#{currentTodoDetailsView.editId}"/>
+        </p:link>
+        |
+        <p:link id="backToListLink" outcome="index" value="Back to List">
+        </p:link>
+
+    </ui:define>
+
+</ui:composition>

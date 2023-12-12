@@ -1,0 +1,64 @@
+### Get all Phones
+GET http://localhost:8182/restapi/PhonesDto/all
+
+### Get all user Phones
+GET http://localhost:8182/restapi/PhonesDto/
+Authorization: Bearer {{kgee_user_token}}
+
+### Get a single Phones with an id of 1
+GET http://localhost:8182/restapi/PhonesDto/1
+Authorization: Bearer {{smavris_user_token}}
+
+### POST a new Phone with valid data
+POST http://localhost:8182/restapi/PhonesDto
+Content-Type: application/json
+Authorization: Bearer {{kgee_user_token}}
+
+{
+  "name": "iPhone 13 Pro",
+  "date": "2023-10-10",
+  "price": "1500",
+  "brand": "Apple",
+  "operatingSystem": "iOS"
+}
+
+### POST a new Phone with invalid data
+POST http://localhost:8182/restapi/PhonesDto
+Content-Type: application/json
+Authorization: Bearer {{kgee_user_token}}
+
+{
+  "name": "     ",
+  "date": "2023-10-10",
+  "price": "1500",
+  "brand": "Apple",
+  "operatingSystem": "iOS"
+}
+
+### Get a single Phones with an id of 3
+GET http://localhost:8182/restapi/PhonesDto/3
+Authorization: Bearer {{kgee_user_token}}
+
+
+### Update Phone with an id of 3 with valid data
+PUT http://localhost:8182/restapi/PhonesDto/3
+Content-Type: application/json
+Authorization: Bearer {{kgee_user_token}}
+
+{
+  "id": 3,
+  "name": "iPhone 14 Pro",
+  "date": "2023-10-10",
+  "price": "1500",
+  "brand": "Apple",
+  "operatingSystem": "iOS",
+  "version": 0
+}
+
+### Delete an Phone with an id of another user
+DELETE http://localhost:8182/restapi/PhonesDto/1
+Authorization: Bearer {{kgee_user_token}}
+
+### Delete an Phone with an id of auth user
+DELETE http://localhost:8182/restapi/PhonesDto/3
+Authorization: Bearer {{kgee_user_token}}

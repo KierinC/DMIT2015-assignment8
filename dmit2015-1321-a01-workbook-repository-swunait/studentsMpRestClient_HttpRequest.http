@@ -1,0 +1,59 @@
+### Create a new document
+POST https://dmit2015-swu-fbp-default-rtdb.firebaseio.com/students.json
+Content-Type: application/json
+
+{
+  "firstName": "Mad",
+  "lastName": "Max",
+  "email": "madmax@nait.ca",
+  "age": 20
+}
+
+### Create a new document
+POST https://dmit2015-swu-fbp-default-rtdb.firebaseio.com/students.json
+Content-Type: application/json
+
+{
+  "firstName": "Happy",
+  "lastName": "Max",
+  "email": "happymax@nait.ca",
+  "age": 50
+}
+
+### Create a new document
+POST https://dmit2015-swu-fbp-default-rtdb.firebaseio.com/students.json
+Content-Type: application/json
+
+{
+  "firstName": "Random",
+  "lastName": "Max",
+  "email": "randommax@nait.ca",
+  "age": 35
+}
+
+### GET All documents
+GET https://dmit2015-swu-fbp-default-rtdb.firebaseio.com/students.json
+
+### GET One document by key
+GET https://dmit2015-swu-fbp-default-rtdb.firebaseio.com/students/-NeKDy7jTvbMDtPV4WPr.json
+
+### UPDATE document - will replace all properties with the properties in the request body - if you miss a property it will be removed
+PUT https://dmit2015-swu-fbp-default-rtdb.firebaseio.com/students/-NeKDy7jTvbMDtPV4WPr.json
+Content-Type: application/json
+
+{
+  "age": 50,
+  "email": "emergencymax@nait.ca",
+  "firstName": "Emgerency",
+  "lastName": "Max"
+}
+### DELETE document - use this if you want to delete a document
+DELETE https://dmit2015-swu-fbp-default-rtdb.firebaseio.com/students/-NeKDTuXz14x1O6RO26l.json
+
+### PATCH document - use this if you want to update some of the properties but not all of them
+PATCH https://dmit2015-swu-fbp-default-rtdb.firebaseio.com/students/-NeKE4baBAhK3ize2D1H.json
+Content-Type: application/json
+
+{
+  "age": 25
+}

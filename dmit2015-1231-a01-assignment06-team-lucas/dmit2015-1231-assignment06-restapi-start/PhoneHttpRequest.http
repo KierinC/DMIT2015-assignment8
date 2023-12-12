@@ -1,0 +1,52 @@
+### Get all Phones
+GET http://localhost:8080/restapi/Phones
+
+### Get a single Phones with an id of 1
+GET http://localhost:8080/restapi/Phones/1
+
+### POST a new Phone with valid data
+POST http://localhost:8080/restapi/Phones
+Content-Type: application/json
+
+{
+  "model": "iPhone 13 Pro",
+  "releaseDate": "2023-10-10",
+  "price": "1500",
+  "brand": "Apple",
+  "operatingSystem": "iOS"
+}
+
+### Post a new Phone with invalid data
+POST http://localhost:8080/restapi/Phones
+Content-Type: application/json
+
+{
+  "model": "iPhone 15 Pro",
+  "releaseDate": "2023-10-10",
+  "price": "1500",
+  "brand": " ",
+  "operatingSystem": "iOS"
+}
+
+### Get a single Phone with an id of 3
+GET http://localhost:8080/restapi/Phones/5
+
+### Update Phone with an id of 3 with valid data
+PUT http://localhost:8080/restapi/Phones/5
+Content-Type: application/json
+
+{
+  "id": 5,
+  "model": "iPhone 15 Pro",
+  "releaseDate": "2023-10-10",
+  "price": "1500",
+  "brand": "Apple",
+  "operatingSystem": "iOS",
+  "version": 0
+}
+
+### Delete an Phone with an id of 2
+DELETE http://localhost:8080/restapi/Phones/2
+
+### Delete an Phone with an id of 5
+DELETE http://localhost:8080/restapi/Phones/5
